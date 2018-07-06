@@ -1,1 +1,1 @@
-# recipe_box
+# sinatra-recipe-box
