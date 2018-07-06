@@ -5,3 +5,27 @@
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
 <% end %>
+
+
+<% if Helpers.logged_in?(session) %>
+  <h3>You are log in as <%= Helpers.current_user(session).name %>. To continue, please select from the following options.</h3>
+
+  <form action="/recipes" method="GET">
+    <input type="submit" value="View Your Recipes">
+  </form>
+
+  <br>
+
+  <form action="/recipes/new" method="GET">
+    <input type="submit" value="New Recipe">
+  </form>
+
+  <br>
+
+  <form action="/logout" method="GET">
+    <input type="submit" value="Log out">
+  </form>
+
+<% else %>
+  <h3>Please <a href="/signup">Sign Up</a> or <a href="/login">Log In</a> to continue.<h3>
+<% end %>

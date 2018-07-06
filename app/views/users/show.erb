@@ -1,0 +1,36 @@
+<!-- /users/show -->
+<h1>Welcome, <%= Helpers.current_user(session).username %> to Recipe Box</h1>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<table>
+  <tr>
+    <th>Recipe Id</th>
+    <th>By</th>
+    <th>Recipe Name</th>
+    <th>View</th>
+  </tr>
+
+  <% @user.recipe.each do |recipe| %>
+    <tr>
+      <td><%= recipe.id %></td>
+      <td><%= @user.name %></td>
+      <td><%= recipe.name %></td>
+      <td><a href="/recipes/<%= recipe.id %>">View</a></td>
+    </tr>
+  <% end %>
+<table>
+
+<br></br>
+
+<!-- Link to Create New Tweet -->
+<form action="/recipes/new" method="GET">
+  <input type="submit" value="New Recipe">
+</form>
+
+<!-- Link to Log Out -->
+<form action="/logout" method="GET">
+  <input type="submit" id="logout" value="Log Out">
+</form>

@@ -1,3 +1,4 @@
+require './config/environment'
 require 'rack-flash'
 
 class ApplicationController < Sinatra::Base
@@ -11,6 +12,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "recipe password_security"
   end
 
+ # GET / - renders an index.erb file with links to signup or login or tweets action
   get '/' do
     erb :index
   end
