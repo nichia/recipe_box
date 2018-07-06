@@ -5,4 +5,8 @@ class Recipe < ActiveRecord::Base
   has_many :notes, dependent: :destroy
   has_many :recipe_categories
   has_many :categories, through: :recipe_categories
+
+  extend Slugifiable::ClassMethods
+  include Slugifiable::InstanceMethods
+  
 end
