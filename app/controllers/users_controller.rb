@@ -3,7 +3,10 @@ class UsersController < ApplicationController
   # GET /users - renders an index for listing users
   get '/users' do
     if Helpers.logged_in?(session)
-      @users = User.all
+      @users = User.all.sort_by do |user|
+        user.name
+      end
+
       erb :'/users/index'
     else
       erb :'/users/login'
@@ -81,7 +84,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/:slug - Read action to list this user's tweets
+  # GET /users/:slug - Read action to list this user's recipes
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
     if @user

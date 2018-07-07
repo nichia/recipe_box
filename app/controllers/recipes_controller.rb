@@ -5,7 +5,10 @@ class RecipesController < ApplicationController
   # GET - /recipes - index action - index page to display all recipes
   get '/recipes' do
     if Helpers.logged_in?(session)
-      @recipes = Recipe.all
+      @recipes = Recipe.all.sort_by do |recipe|
+        recipe.name
+      end
+
       erb :'/recipes/index'
     else
       flash[:message] = "You must be logged in to view recipes."
@@ -22,5 +25,5 @@ class RecipesController < ApplicationController
       redirect :"/login"
     end
   end
-  
+
 end

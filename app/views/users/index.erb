@@ -1,18 +1,28 @@
 <!-- /users/index -->
 
-<h1>Welcome to Recipe Box</h1>
+<h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
 
-<h3>Users</h3>
+<h3> Recipes Listing by Users</h3>
 
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
 <% end %>
 
-<ul>
+<table>
+  <tr>
+    <th> User Name </th>
+    <th> Recipes Contributed </th>
+    <th> View </th>
+  </tr>
+
   <% @users.each do |user| %>
-    <li><a href="/users/<%= user.slug %>"><%= user.name %></a></li>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.recipes.count %></td>
+      <td><a href="/users/<%= user.slug %>">View</a></td>
+    </tr>
   <% end %>
-</ul>
+<table>
 
 <br></br>
 

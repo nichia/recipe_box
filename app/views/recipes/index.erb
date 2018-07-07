@@ -2,7 +2,7 @@
 
 <h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
 
-<h3>Tweets</h3>
+<h3>Recipes</h3>
 
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
@@ -10,18 +10,18 @@
 
 <table>
   <tr>
-    <th>Recipe Id</th>
-    <th>By</th>
-    <th>Recipe Name</th>
-    <th>View</th>
+    <th> Recipe Name </th>
+    <th> Description </th>
+    <th> By </th>
+    <th> View </th>
   </tr>
 
   <% @recipes.each do |recipe| %>
     <tr>
-      <td><%= recipe.id %></td>
-      <td><%= @user.name %></td>
       <td><%= recipe.name %></td>
-      <td><a href="/recipes/<%= recipe.id %>">View</a></td>
+      <td><%= recipe.description %></td>
+      <td><%= recipe.user.name %></td>
+      <td><a href="/recipes/<%= recipe.slug %>">View</a></td>
     </tr>
   <% end %>
 <table>

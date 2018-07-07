@@ -1,24 +1,26 @@
 <!-- /users/show -->
 <h1>Welcome, <%= Helpers.current_user(session).username %> to Recipe Box</h1>
 
+<h3>Your Recipe Box</h3>
+
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
 <% end %>
 
 <table>
   <tr>
-    <th>Recipe Id</th>
-    <th>By</th>
-    <th>Recipe Name</th>
-    <th>View</th>
+    <th> Recipe Id </th>
+    <th> Name </th>
+    <th> Description </th>
+    <th> View </th>
   </tr>
 
   <% @user.recipe.each do |recipe| %>
     <tr>
       <td><%= recipe.id %></td>
-      <td><%= @user.name %></td>
       <td><%= recipe.name %></td>
-      <td><a href="/recipes/<%= recipe.id %>">View</a></td>
+      <td><%= recipe.description %></td>
+      <td><a href="/recipes/<%= recipe.slug %>">View</a></td>
     </tr>
   <% end %>
 <table>
