@@ -11,7 +11,8 @@ module Slugifiable
   module InstanceMethods
     def slug
       # \W - any non-word character (word character is letter, number, underscore)
-      self.name.gsub(/\W/, '-')
+      # remove the following character !@#$%^&*?:;"'
+      self.name.gsub(/[!@#$%^&*?:;"']/, '').gsub(/\W/, '-').downcase
     end
   end
 
