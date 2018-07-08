@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     else
       user = User.find_by(name: params[:name])
       if user && user.authenticate(params[:password])
-        flash[:message] = "You've successfully created an account with Recipe Box."
+        flash[:message] = "You've logged in with Recipe Box."
         session[:user_id] = user.id
         redirect :"/recipes"
       else
@@ -68,6 +68,7 @@ class UsersController < ApplicationController
       user.password = params[:password]
       user.save
 
+      flash[:message] = "You've successfully created an account with Recipe Box."
       session[:user_id] = user.id
       redirect :"/recipes"
     end
@@ -86,11 +87,16 @@ class UsersController < ApplicationController
 
   # GET /users/:slug - Read action to list this user's recipes
   get '/users/:slug' do
-    @user = User.find_by_slug(params[:slug])
-    if @user
-      erb :'/users/show'
+    if Helpers.logged_in?(session)
+      @user = User.find_by_slug(params[:slug])
+      if @user
+        erb :'/users/show'
+      else
+        erb :'not_found'
+      end
     else
-      erb :'not_found'
+      flash[:message] = "You must be logged in to view users."
+      redirect :"/login"
     end
   end
 

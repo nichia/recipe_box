@@ -1,0 +1,22 @@
+<!-- categories/new -->
+
+<h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
+
+<h3> Categories</h3>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<form action="/categories" method="POST">
+  <p>Category Name: <input type="text" name="name" id="name"></p>
+
+  <input type="submit" id="create" value="Create New Category">
+</form>
+
+<br></br>
+
+<!-- Return to Index -->
+<form action="/categories" method="GET">
+  <input type="submit" value="Go Back to Category Index">
+</form>

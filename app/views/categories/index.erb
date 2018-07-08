@@ -1,0 +1,44 @@
+<!-- /categories/index -->
+
+<h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
+
+<h3> Categories</h3>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<table>
+  <tr>
+    <th> Category Id </th>
+    <th> Name </th>
+    <th> # Recipes </th>
+    <th> View </th>
+  </tr>
+
+  <% @categories.each do |category| %>
+    <tr>
+      <td><%= category.id %></td>
+      <td><%= category.name %></td>
+      <td><%= category.recipes.count %></td>
+      <td><a href="/categories/<%= category.slug %>">View</a></td>
+    </tr>
+  <% end %>
+<table>
+
+<br></br>
+
+<!-- Link to View User Recipes -->
+<form action="/recipes" method="get">
+  <input type="submit" id="submit" value="View Your Recipes">
+</form>
+
+<!-- Link to Create New Category -->
+<form action="/categories/new" method="GET">
+  <input type="submit" value="New Category">
+</form>
+
+<!-- Link to Log Out -->
+<form action="/logout" method="GET">
+  <input type="submit" id="logout" value="Log Out">
+</form>
