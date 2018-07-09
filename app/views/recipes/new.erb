@@ -12,6 +12,14 @@
 <form action="/recipes" method="POST">
   <p>Recipe Name: <input type="text" name="recipe[name]" id="name"></p>
 
+  <p>Description: <input type="text" name="recipe[description]" id="description"></p>
+
+  <p>Prep Time: <input type="integer" name="recipe[prep_time]" id="prep_time"></p>
+
+  <p>Cook Time: <input type="integer" name="recipe[cook_time]" id="cook_time"></p>
+
+  <p>Yield: <input type="text" name="recipe[yield]" id="yield"></p>
+
   <p>Select Category</p>
   <% @categories.each do |category| %>
     <input type="checkbox" name="recipe[category_ids][]" id="category_<%= category.id %>" value="<%= category.id %>"><%= category.name %></input>
@@ -20,7 +28,6 @@
   <p> And/or Create New Category</p>
   <input type="text" name="category[name]" id="new_category"></input>
 
-  <!-- "description" t.integer "prep_time" t.integer "cook_time" t.string  "yield" -->
 
   <br></br>
 

@@ -50,7 +50,6 @@ class RecipesController < ApplicationController
         end
       end
 
-
       recipe.save
 
       flash[:message] = "Successfully added your recipe."
