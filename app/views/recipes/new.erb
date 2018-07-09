@@ -7,3 +7,29 @@
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
 <% end %>
+
+
+<form action="/recipes" method="POST">
+  <p>Recipe Name: <input type="text" name="recipe[name]" id="name"></p>
+
+  <p>Select Category</p>
+  <% @categories.each do |category| %>
+    <input type="checkbox" name="recipe[category_ids][]" id="category_<%= category.id %>" value="<%= category.id %>"><%= category.name %></input>
+  <% end %>
+
+  <p> And/or Create New Category</p>
+  <input type="text" name="category[name]" id="new_category"></input>
+
+  <!-- "description" t.integer "prep_time" t.integer "cook_time" t.string  "yield" -->
+
+  <br></br>
+
+  <input type="submit" id="create" value="Create New Recipe">
+</form>
+
+<br></br>
+
+<!-- Return to Index -->
+<form action="/recipes" method="GET">
+  <input type="submit" value="Go Back to Recipes Listing">
+</form>

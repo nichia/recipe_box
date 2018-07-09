@@ -1,0 +1,14 @@
+<!-- /recipes/show -->
+<h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
+
+<h3>Recipe <%= @recipe.name %></h3>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+
+<!-- Return to Index -->
+<form action="/recipes" method="GET">
+  <input type="submit" value="Go Back to Recipes Listing">
+</form>
