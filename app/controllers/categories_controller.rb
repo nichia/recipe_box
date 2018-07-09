@@ -27,16 +27,16 @@ class CategoriesController < ApplicationController
   post '/categories' do
     #binding.pry
     if !Category.find_by(name: params[:name])
-      category = Category.create(params[:name])
+      category = Category.create(params)
     end
 
-    redirect :"/categories/#{category.slug}"
+    redirect :"/categories/#{category.id}"
   end
 
-  # GET - /categories/:slug - show action - displays one category based on slug name in the url
-  get '/categories/:slug' do
+  # GET - /categories/:id - show action - displays one category based on id in the url
+  get '/categories/:id' do
     if Helpers.logged_in?(session)
-      @category = Category.find_by_slug(params[:slug])
+      @category = Category.find(params[:id])
       if @category
         erb :'/categories/show'
       else

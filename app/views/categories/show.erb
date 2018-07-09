@@ -1,7 +1,7 @@
 <!-- /categories/show -->
 <h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
 
-<h3>Category <%= @category.name</h3>
+<h3>Category <%= @category.name %></h3>
 
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
@@ -30,6 +30,11 @@
 <!-- Link to Create New Tweet -->
 <form action="/recipes/new" method="GET">
   <input type="submit" value="New Recipe">
+</form>
+
+<!-- Link to View User Recipes -->
+<form action="/categories" method="get">
+  <input type="submit" id="submit" value="View Categories">
 </form>
 
 <!-- Link to Log Out -->
