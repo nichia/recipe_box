@@ -10,13 +10,13 @@
 <% if Helpers.logged_in?(session) %>
   <h3>You are log in as <%= Helpers.current_user(session).name %>. To continue, please select from the following options.</h3>
 
-  <form action="/recipes" method="GET">
+  <form action="/recipes" method="get">
     <input type="submit" value="View Your Recipes">
   </form>
 
   <br>
 
-  <form action="/recipes/new" method="GET">
+  <form action="/recipes/new" method="get">
     <input type="submit" value="New Recipe">
   </form>
 
