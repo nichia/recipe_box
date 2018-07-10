@@ -9,10 +9,10 @@
 <% end %>
 
 
-<form action="/recipes" method="POST">
+<form action="/recipes" method="post">
   <p>Recipe Name: <input type="text" name="recipe[name]" id="name"></p>
 
-  <p>Description: <textarea name="recipe[description]" id="description" rows="3" cols="80"></textarea></p>
+  <p>Description: <textarea name="recipe[description]" id="description" rows="2" cols="80"></textarea></p>
 
   <p>Prep Time: <input type="number" name="recipe[prep_time]" id="prep_time">
     Cook Time: <input type="number" name="recipe[cook_time]" id="cook_time">
@@ -38,7 +38,7 @@
       <tr>
         <td><input type="text" name="ingredients[][name]" id="ingredients_name"></td>
         <td><input type="number" name="ingredients[][quantity]" id="ingredients_quantity"></td>
-        <td><textarea name="ingredients[][content]" id="ingredients_content" rows="1" cols="60"></textarea></td>
+        <td><textarea name="ingredients[][content]" id="ingredients_content" rows="1" cols="80"></textarea></td>
       </tr>
     <% end %>
   <table>
@@ -67,6 +67,6 @@
 <br></br>
 
 <!-- Return to Index -->
-<form action="/recipes" method="GET">
+<form action="/recipes" method="get">
   <input type="submit" value="Go Back to Recipes Listing">
 </form>

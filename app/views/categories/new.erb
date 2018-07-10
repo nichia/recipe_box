@@ -8,7 +8,7 @@
   <%= flash[:message] %>
 <% end %>
 
-<form action="/categories" method="POST">
+<form action="/categories" method="post">
   <p>Category Name: <input type="text" name="name" id="name"></p>
 
   <input type="submit" id="create" value="Create New Category">
@@ -17,6 +17,6 @@
 <br></br>
 
 <!-- Return to Index -->
-<form action="/categories" method="GET">
+<form action="/categories" method="get">
   <input type="submit" value="Go Back to Category Index">
 </form>
