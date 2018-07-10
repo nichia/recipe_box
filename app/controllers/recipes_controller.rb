@@ -40,6 +40,7 @@ class RecipesController < ApplicationController
     else
       recipe = Recipe.create(params[:recipe])
       recipe.user_id = session[:user_id]
+      recipe.save
 
       # new category
       if !params[:category][:name].empty?
@@ -50,8 +51,30 @@ class RecipesController < ApplicationController
         end
       end
 
-      recipe.save
+      # new ingredients
+      if !params[:ingredients].empty?
+        params[:ingredients].each do |data|
+          if !data[:name].empty?
+            ingredient= Ingredient.new(data)
+            ingredient.recipe = recipe
+            ingredient.save
+          end
+        end
+      end
 
+      # new instructions
+      if !params[:instructions].empty?
+        params[:instructions].each do |data|
+          if !data[:content].empty?
+            instruction = Instruction.new(data)
+            instruction.recipe = recipe
+            instruction.save
+          end
+        end
+      end
+
+      binding.pry
+      
       flash[:message] = "Successfully added your recipe."
       redirect :"/recipes/#{recipe.slug}"
     end

@@ -12,22 +12,52 @@
 <form action="/recipes" method="POST">
   <p>Recipe Name: <input type="text" name="recipe[name]" id="name"></p>
 
-  <p>Description: <input type="text" name="recipe[description]" id="description"></p>
+  <p>Description: <textarea name="recipe[description]" id="description" rows="3" cols="80"></textarea></p>
 
-  <p>Prep Time: <input type="integer" name="recipe[prep_time]" id="prep_time"></p>
+  <p>Prep Time: <input type="number" name="recipe[prep_time]" id="prep_time">
+    Cook Time: <input type="number" name="recipe[cook_time]" id="cook_time">
+    Yield: <input type="text" name="recipe[yield]" id="yield"></p>
 
-  <p>Cook Time: <input type="integer" name="recipe[cook_time]" id="cook_time"></p>
+  <fieldset>
+    <p>Select Category:
+    <% @categories.each do |category| %>
+      <input type="checkbox" name="recipe[category_ids][]" id="category_<%= category.id %>" value="<%= category.id %>"><%= category.name %></input>
+    <% end %> </p>
 
-  <p>Yield: <input type="text" name="recipe[yield]" id="yield"></p>
+    <p>And/or Create New Category: <input type="text" name="category[name]" id="new_category"></input></p>
+  </fieldset>
 
-  <p>Select Category</p>
-  <% @categories.each do |category| %>
-    <input type="checkbox" name="recipe[category_ids][]" id="category_<%= category.id %>" value="<%= category.id %>"><%= category.name %></input>
-  <% end %>
+  <p>Ingredients:</p>
+  <table>
+    <tr>
+      <th> Ingredients </th>
+      <th> Quantity </th>
+      <th> Details </th>
+    </tr>
+    <% 20.times do %>
+      <tr>
+        <td><input type="text" name="ingredients[][name]" id="ingredients_name"></td>
+        <td><input type="number" name="ingredients[][quantity]" id="ingredients_quantity"></td>
+        <td><textarea name="ingredients[][content]" id="ingredients_content" rows="1" cols="60"></textarea></td>
+      </tr>
+    <% end %>
+  <table>
 
-  <p> And/or Create New Category</p>
-  <input type="text" name="category[name]" id="new_category"></input>
-
+  <p>Instructions:</p>
+  <table>
+    <tr>
+      <th> Steps </th>
+      <th> Directions</th>
+    </tr>
+    <% count=0 %>
+    <% 20.times do %>
+      <% count += 1 %>
+      <tr>
+        <td><%= count %></td>
+        <td><textarea name="instructions[][content]" id="instructions_content" rows="2" cols="100"></textarea></td>
+      </tr>
+    <% end %>
+  <table>
 
   <br></br>
 

@@ -9,9 +9,9 @@
 <% end %>
 
 <form action="/signup" method="POST">
-  <p>Username: <input type="text" name="name" id="name"></p>
-  <p>Email: <input type="text" name="email" id="email"></p>
-  <p>Password: <input type="password" name="password" id="password"></p>
+  <p>Username: <input type="text" name="name" id="name" required></p>
+  <p>Email: <input type="text" name="email" id="email" autocomplete="off" required></p>
+  <p>Password: <input type="password" name="password" id="password" required></p>
   <input type="submit" id="submit" value="Sign Up">
 </form>
 
