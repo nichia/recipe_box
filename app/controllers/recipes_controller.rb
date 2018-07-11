@@ -85,8 +85,11 @@ class RecipesController < ApplicationController
   # GET /recipes/:slug - Read action to list the recipe based on :slug in the url
   get '/recipes/:slug' do
     @recipe = Recipe.find_by_slug(params[:slug])
-
-    erb :'/recipes/show'
+    if @recipe
+      erb :'/recipes/show'
+    else
+      erb :'not_found'
+    end
   end
 
   # GET - /recipes/:slug/edit - edit action - displays one recipe based on recipe slug in the url for editing
