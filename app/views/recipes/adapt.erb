@@ -1,0 +1,95 @@
+<!-- /recipes/adapt -->
+
+<h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
+
+<h3>Edit Recipes</h3>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<!-- Link to Create Recipe adapted from another recipe-->
+<form action="/recipes" method="post">
+
+  <p>Recipe Name: <input type="text" name="recipe[name]" id="name" value="<%= @recipe.name %>"></p>
+
+  <p>Description: <textarea name="recipe[description]" id="description" rows="2" cols="100"><%= @recipe.description %></textarea></p>
+
+  <p>Prep Time: <input type="number" name="recipe[prep_time]" id="prep_time" value="<%= @recipe.prep_time %>">
+    Cook Time: <input type="number" name="recipe[cook_time]" id="cook_time" value="<%= @recipe.cook_time %>">
+    Yield: <input type="text" name="recipe[yield]" id="yield" value="<%= @recipe.yield %>"></p>
+
+  <fieldset>
+    <p>Select Category:
+    <% @categories.each do |category| %>
+      <input type="checkbox" name="recipe[category_ids][]" id="category_<%= category.id %>" value="<%= category.id %>"<%="checked" if @recipe.categories.include?(category) %>><%= category.name %></input>
+    <% end %> </p>
+
+    <p>And/or Create New Category: <input type="text" name="category[name]" id="new_category"></input></p>
+  </fieldset>
+
+  <br></br>
+
+  <p>Ingredients:</p>
+  <table>
+    <tr>
+      <th> Ingredients </th>
+      <th> Qty </th>
+      <th> Details </th>
+    </tr>
+    <% ingredient_count = @recipe.ingredients.count %>
+    <% if ingredient_count > 0 %>
+      <% @recipe.ingredients.each do |ingredient| %>
+        <tr>
+          <td><input type="text" name="ingredients[][name]" id="ingredients_name" value="<%= ingredient.name %>"></input></td>
+          <td><input type="number" name="ingredients[][quantity]" id="ingredients_quantity" value="<%= ingredient.quantity %>"></input></td>
+          <td><textarea name="ingredients[][content]" id="ingredients_content" rows="1" cols="80"> <%= ingredient.content %></textarea></td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% (12 - ingredient_count).times do %>
+      <tr>
+        <td><input type="text" name="ingredients[][name]" id="ingredients_name"></td>
+        <td><input type="number" name="ingredients[][quantity]" id="ingredients_quantity"></td>
+        <td><textarea name="ingredients[][content]" id="ingredients_content" rows="1" cols="80"></textarea></td>
+      </tr>
+    <% end %>
+  <table>
+
+  <p>Instructions:</p>
+  <table>
+    <tr>
+      <th> Steps </th>
+      <th> Directions</th>
+    </tr>
+    <% count = 0 %>
+    <% instruction_count = @recipe.instructions.count %>
+    <% if instruction_count > 0 %>
+      <% @recipe.instructions.each do |instruction| %>
+        <% count += 1 %>
+        <tr>
+          <td><%= count %></td>
+          <td><textarea name="instructions[][content]" id="instructions_content" rows="1" cols="100"><%= instruction.content %></textarea></td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% (10 - instruction_count).times do %>
+      <% count += 1 %>
+      <tr>
+        <td><%= count %></td>
+        <td><textarea name="instructions[][content]" id="instructions_content" rows="1" cols="100"></textarea></td>
+      </tr>
+    <% end %>
+  <table>
+
+  <br></br>
+
+  <input type="submit" id="create" value="Create New Recipe">
+</form>
+
+<br></br>
+
+<!-- Return to Index -->
+<form action="/recipes" method="get">
+  <input type="submit" value="Go Back to Recipes Listing">
+</form>

@@ -2,7 +2,7 @@
 
 <h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
 
-<h3>Edit Note for Recipe <%= @recipe.name %> </h3>
+<h3>Edit Note: Recipe <%= @recipe.name %> </h3>
 
 <% if flash.has?(:message) %>
   <%= flash[:message] %>

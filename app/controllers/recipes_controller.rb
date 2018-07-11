@@ -30,6 +30,25 @@ class RecipesController < ApplicationController
     end
   end
 
+  # GET /recipes/new/:slug - new action to adapt a recipe - displays create recipe form base on existing Recipe
+  get '/recipes/new/:slug' do
+    if Helpers.logged_in?(session)
+      @recipe = Recipe.find_by_slug(params[:slug])
+      if !@recipe
+        erb :'not_found'
+      else
+        @categories = Category.all.sort_by do |category|
+          category.name
+        end
+
+        erb :'/recipes/adapt'
+      end
+    else
+      flash[:message] = "You must be logged in to add a recipe."
+      redirect :"/login"
+    end
+  end
+
   # POST /recipes - create action - create a new recipe
   post '/recipes' do
     #binding.pry
@@ -37,7 +56,7 @@ class RecipesController < ApplicationController
     if params[:recipe][:name].empty?
       flash[:message] = "Your recipe name cannot be left blank."
       redirect :"/recipes/new"
-    elsif (recipe = find_by_name(params[:recipe][:name]))
+    elsif (recipe = Recipe.find_by(name: params[:recipe][:name]))
       flash[:message] = "A recipe already exists with this name, please use another recipe name."
       redirect :"/recipes/new"
     else
@@ -101,14 +120,14 @@ class RecipesController < ApplicationController
       if !@recipe
         erb :'not_found'
       elsif Helpers.current_user(session).id == @recipe.user_id
-        # Owner of recipe, can edit recipe (except the note for non-recipe owner)
+        # Owner of recipe, can edit recipe (except the Note for non-recipe owner)
         @note = ""
         @categories = Category.all.sort_by do |category|
           category.name
         end
         erb :'/recipes/edit'
       else
-        # Does not own the recipe, can only add/edit note of a recipe
+        # Does not own the recipe, can only add/edit Note of a recipe
         @note = @recipe.notes.find_by(user_id: session[:user_id])
         erb :'/recipes/edit_note'
       end
@@ -192,7 +211,7 @@ class RecipesController < ApplicationController
   patch '/recipes/:slug/note' do
     #binding.pry
     recipe = Recipe.find_by_slug(params[:slug])
-    
+
     if !params[:note][:id].empty?
       # Update or delete existing Note
       note = Note.find(params[:note][:id])

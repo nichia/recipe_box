@@ -67,7 +67,17 @@
   </form>
 
   <br>
+
+  <!-- Link to Adapt this Recipe by creating a new Recipe base on this version -->
+  <form action="/recipes/new/<%= @recipe.slug %>" method="get">
+    <input type="submit" id="edit" value="Adapt Recipe">
+  </form>
+
+  <br>
 <% else %>
+
+  <br>
+
   <!-- Link to Edit Recipe -->
   <form action="/recipes/<%= @recipe.slug %>/edit" method="get">
     <input type="submit" id="edit" value="Edit Recipe">
@@ -82,8 +92,6 @@
   </form>
 
   <br>
-
-
 <% end %>
 
 <!-- Return to Index -->
