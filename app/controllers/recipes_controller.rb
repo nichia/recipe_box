@@ -37,7 +37,7 @@ class RecipesController < ApplicationController
     if params[:recipe][:name].empty?
       flash[:message] = "Your recipe name cannot be left blank."
       redirect :"/recipes/new"
-    elsif (recipe = find_by_name(params[:recipe][:name])
+    elsif (recipe = find_by_name(params[:recipe][:name]))
       flash[:message] = "A recipe already exists with this name, please use another recipe name."
       redirect :"/recipes/new"
     else
@@ -86,6 +86,8 @@ class RecipesController < ApplicationController
   get '/recipes/:slug' do
     @recipe = Recipe.find_by_slug(params[:slug])
     if @recipe
+      @note = @recipe.notes.find_by(user_id: session[:user_id])
+
       erb :'/recipes/show'
     else
       erb :'not_found'
@@ -96,14 +98,19 @@ class RecipesController < ApplicationController
   get '/recipes/:slug/edit' do
     if Helpers.logged_in?(session)
       @recipe = Recipe.find_by_slug(params[:slug])
-      if @recipe && Helpers.current_user(session).id == @recipe.user_id
+      if !@recipe
+        erb :'not_found'
+      elsif Helpers.current_user(session).id == @recipe.user_id
+        # Owner of recipe, can edit recipe (except the note for non-recipe owner)
+        @note = ""
         @categories = Category.all.sort_by do |category|
           category.name
         end
         erb :'/recipes/edit'
       else
-        flash[:message] = "You must be the recipe owner to edit a recipe."
-        redirect :"/recipes/#{recipe.slug}"
+        # Does not own the recipe, can only add/edit note of a recipe
+        @note = @recipe.notes.find_by(user_id: session[:user_id])
+        erb :'/recipes/edit_note'
       end
     else
       flash[:message] = "You must be logged in to edit a recipe."
@@ -179,6 +186,37 @@ class RecipesController < ApplicationController
       flash[:message] = "Successfully edited Recipe!"
       redirect :"/recipes/#{recipe.slug}"
     end
+  end
+
+  # PATCH - /recipes/:slug/note - edit action - edits an existing recipe's Note based on recipe slug in the url
+  patch '/recipes/:slug/note' do
+    #binding.pry
+    recipe = Recipe.find_by_slug(params[:slug])
+    
+    if !params[:note][:id].empty?
+      # Update or delete existing Note
+      note = Note.find(params[:note][:id])
+      if params[:note][:content].empty?
+        note.destroy
+        flash[:message] = "Successfully deleted Your Recipe Note!"
+      else
+        note.update(content: params[:note][:content])
+        flash[:message] = "Successfully edited Your Recipe Note!"
+      end
+    elsif params[:note][:content].empty?
+        flash[:message] = "Your Note cannot be left blank! "
+    else
+      # Add new Note
+
+      note = Note.new(content: params[:note][:content])
+      note.recipe_id = recipe.id
+      note.user_id = session[:user_id]
+      note.save
+      flash[:message] = "Successfully added Your Recipe Note!"
+    end
+
+    #binding.pry
+    redirect :"/recipes/#{recipe.slug}"
   end
 
   # DELETE - /recipes/:slug/delete - delete action

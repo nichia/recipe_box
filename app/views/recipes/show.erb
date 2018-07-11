@@ -55,9 +55,19 @@
   <% end %>
 <table>
 
-<br>
+<% if Helpers.current_user(session).id != @recipe.user.id %>
+  <!-- Show your Note for this recipe -->
+  <p><b>Your Note:</b> <%= @note.content %></p>
 
-<% if Helpers.current_user(session).id == @recipe.user.id %>
+  <br>
+
+  <!-- Link to Recipe/User Note -->
+  <form action="/recipes/<%= @recipe.slug %>/edit" method="get">
+    <input type="submit" id="edit" value="Edit Your Note">
+  </form>
+
+  <br>
+<% else %>
   <!-- Link to Edit Recipe -->
   <form action="/recipes/<%= @recipe.slug %>/edit" method="get">
     <input type="submit" id="edit" value="Edit Recipe">
@@ -72,6 +82,8 @@
   </form>
 
   <br>
+
+
 <% end %>
 
 <!-- Return to Index -->
