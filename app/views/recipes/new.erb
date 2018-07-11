@@ -1,6 +1,6 @@
 <!-- /recipes/new -->
 
-<h1>Welcome to Recipe Box</h1>
+<h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
 
 <h3>New Recipes</h3>
 
@@ -8,11 +8,10 @@
   <%= flash[:message] %>
 <% end %>
 
-
 <form action="/recipes" method="post">
   <p>Recipe Name: <input type="text" name="recipe[name]" id="name"></p>
 
-  <p>Description: <textarea name="recipe[description]" id="description" rows="2" cols="80"></textarea></p>
+  <p>Description: <textarea name="recipe[description]" id="description" rows="2" cols="100"></textarea></p>
 
   <p>Prep Time: <input type="number" name="recipe[prep_time]" id="prep_time">
     Cook Time: <input type="number" name="recipe[cook_time]" id="cook_time">
@@ -31,10 +30,10 @@
   <table>
     <tr>
       <th> Ingredients </th>
-      <th> Quantity </th>
+      <th> Qty </th>
       <th> Details </th>
     </tr>
-    <% 20.times do %>
+    <% 12.times do %>
       <tr>
         <td><input type="text" name="ingredients[][name]" id="ingredients_name"></td>
         <td><input type="number" name="ingredients[][quantity]" id="ingredients_quantity"></td>
@@ -50,7 +49,7 @@
       <th> Directions</th>
     </tr>
     <% count=0 %>
-    <% 20.times do %>
+    <% 10.times do %>
       <% count += 1 %>
       <tr>
         <td><%= count %></td>

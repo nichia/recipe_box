@@ -7,8 +7,79 @@
   <%= flash[:message] %>
 <% end %>
 
+<p><b>Description:</b> <%= @recipe.description %></p>
+
+<p><b>Prep Time:</b> <%= @recipe.prep_time %>
+  <b>Cook Time:</b> <%= @recipe.cook_time %>
+  <b>Yield:</b> <%= @recipe.yield %></p>
+
+<p><b>Categories:</b>
+<!-- <ul> -->
+  <% @recipe.categories.each do |category| %>
+    <!-- <li> -->
+      <a href="/categories/<%= category.id %>"><%= category.name %></a>
+    <!-- </li> -->
+  <%end%>
+<!-- </ul> -->
+</p>
+
+<table>
+  <tr>
+    <th> Ingredients </th>
+    <th> Qty </th>
+    <th> Details </th>
+  </tr>
+  <% @recipe.ingredients.each do |ingredient| %>
+    <tr>
+      <td><a href="ingredients/<% ingredient.id %>"><%= ingredient.name %></a></td>
+      <td><a href="ingredients/<% ingredient.id %>"><%= ingredient.quantity %></a></td>
+      <td><%= ingredient.content %></td>
+    </tr>
+  <% end %>
+<table>
+
+<br>
+
+<table>
+  <tr>
+    <th> Steps </th>
+    <th> Instructions</th>
+  </tr>
+  <% count=0 %>
+  <% @recipe.instructions.each do |instruction| %>
+    <% count += 1 %>
+    <tr>
+      <td><%= count %></td>
+      <td><%= instruction.content %></td>
+    </tr>
+  <% end %>
+<table>
+
+<br>
+
+<% if Helpers.current_user(session).id == @recipe.user.id %>
+  <!-- Link to Edit Recipe -->
+  <form action="/recipes/<%= @recipe.slug %>/edit" method="get">
+    <input type="submit" id="edit" value="Edit Recipe">
+  </form>
+
+  <br>
+
+  <!-- Link to Delete Recipe -->
+  <form action="/recipes/<%= @recipe.slug %>/delete" method="post">
+        <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" id="delete" value="Delete Recipe">
+  </form>
+
+  <br>
+<% end %>
 
 <!-- Return to Index -->
 <form action="/recipes" method="get">
   <input type="submit" value="Go Back to Recipes Listing">
+</form>
+
+<!-- Link to Log Out -->
+<form action="/logout" method="get">
+  <input type="submit" id="logout" value="Log Out">
 </form>

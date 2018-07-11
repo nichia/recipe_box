@@ -2,7 +2,7 @@
 
 <h1>Welcome, <%= Helpers.current_user(session).name %> to Recipe Box</h1>
 
-<h3> Recipes Listing by Users</h3>
+<h3> User Recipe Box</h3>
 
 <% if flash.has?(:message) %>
   <%= flash[:message] %>
