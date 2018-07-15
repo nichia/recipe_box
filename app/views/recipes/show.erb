@@ -57,7 +57,11 @@
 
 <% if Helpers.current_user(session).id != @recipe.user.id %>
   <!-- Show your Note for this recipe -->
-  <p><b>Your Note:</b> <%= @note.content %></p>
+  <% if @note %>
+    <p><b>Your Note:</b> <%= @note.content %></p>
+  <% else %>
+    <p><b>Your Note:</b> </p>
+  <% end %>
 
   <br>
 

@@ -12,7 +12,7 @@
 <form action="/recipes/<%= @recipe.slug %>/note" method="post">
   <input id="hidden" type="hidden" name="_method" value="patch">
 
-  <% if !@note.content.empty? %>
+  <% if @note %>
     <p>Note: <textarea name="note[content]" id="note" rows="2" cols="100"><%= @note.content %></textarea></p>
     <input type="hidden" name="note[id]" id="note_id" value="<%= @note.id %>">
   <% else %>
