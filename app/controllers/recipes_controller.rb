@@ -239,9 +239,9 @@ class RecipesController < ApplicationController
   end
 
   # DELETE - /recipes/:slug/delete - delete action
-  delete '/recipes/:id/delete' do
+  delete '/recipes/:slug/delete' do
     if Helpers.logged_in?(session)
-      @recipe = Recipe.find(params[:slug])
+      @recipe = Recipe.find_by_slug(params[:slug])
       if @recipe && Helpers.current_user(session).id == @recipe.user_id
         @recipe.delete
         flash[:message] = "You've successfully deleted your recipe #{params[:slug]}!"
